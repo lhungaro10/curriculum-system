@@ -16,7 +16,7 @@ public class Tela extends JFrame {
 
     public Tela(ApplicationContext context) {
         // Configura o tamanho da janela
-        setSize(400, 300);
+        setSize(400,300);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setTitle("Sistema de Currículo");
 
@@ -63,7 +63,8 @@ public class Tela extends JFrame {
             if (docente.isEmpty()) {
                 new Tela(context).setVisible(true);
             } else {
-                System.out.println("erro");
+                PainelCurriculo painelCurriculo = new PainelCurriculo(sistemaCurriculo);
+                painelCurriculo.setVisible(true);
             }
         });
 

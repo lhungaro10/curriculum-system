@@ -24,6 +24,11 @@ public class Secao {
         this.itensDeSecao = new ArrayList<>();
     }
 
+    public Secao(String nome) {
+        this.nome = nome;
+        this.itensDeSecao = new ArrayList<>();
+    }
+
     public long getId() {
         return id;
     }
@@ -46,5 +51,14 @@ public class Secao {
 
     public void setItensDeSecao(List<ItensDeSecao> itensDeSecao) {
         this.itensDeSecao = itensDeSecao;
+    }
+
+    @Override
+    public String toString() {
+        return "Secao{" +
+                "id=" + id +
+                ", nome='" + nome + '\'' +
+                ", itensDeSecao=" + itensDeSecao +
+                '}';
     }
 }

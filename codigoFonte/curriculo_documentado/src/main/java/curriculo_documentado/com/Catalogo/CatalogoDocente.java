@@ -1,9 +1,10 @@
 package curriculo_documentado.com.Catalogo;
 
 import curriculo_documentado.com.InterfaceJpa.InterfaceJpa;
+import curriculo_documentado.com.Model.CurriculoDocumentado;
 import curriculo_documentado.com.Model.Docente;
+import curriculo_documentado.com.Model.Secao;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
@@ -39,12 +40,16 @@ public class CatalogoDocente {
     }
 
     public void salvarDadosFechamento(){
-
         if(this.docente.isPresent()){
             this.interfaceJpa.save(this.docente.get());
         }
-
-
     }
 
+    public void cadastrarSecaoManualmente(String nome) {
+        var secao = new Secao(nome);
+        System.out.println(secao.toString());
+        System.out.println(docente.get().toString());
+        docente.get().getCurriculoDocumentado().addSecao(secao);
+        System.out.println(this.docente.get().getCurriculoDocumentado().toString());
+    }
 }

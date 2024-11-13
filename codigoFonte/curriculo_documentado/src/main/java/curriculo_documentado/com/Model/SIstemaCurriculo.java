@@ -38,4 +38,12 @@ public class SIstemaCurriculo {
     public void fecharSistema() {
         this.catalogoDocente.salvarDadosFechamento();
     }
+
+    @Override
+    public String toString() {
+        return "SIstemaCurriculo{" +
+                "controlador=" + controlador +
+                ", catalogoDocente=" + catalogoDocente +
+                '}';
+    }
 }
