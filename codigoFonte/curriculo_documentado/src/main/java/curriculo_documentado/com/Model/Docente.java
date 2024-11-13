@@ -21,7 +21,10 @@ public class Docente {
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "docente")
     private CurriculoDocumentado curriculoDocumentado;
 
-    public Docente() {}
+    public Docente() {
+        this.curriculoDocumentado = new CurriculoDocumentado();
+        this.curriculoDocumentado.setDocente(this);
+    }
 
     public Docente(String nome, Date dataNascimento, String nomeInstituicao, String cpf, String sexo, String resumoCurriculo) {
         this.nome = nome;
@@ -30,6 +33,12 @@ public class Docente {
         this.cpf = cpf;
         this.sexo = sexo;
         this.resumoCurriculo = resumoCurriculo;
+        this.curriculoDocumentado = new CurriculoDocumentado();
+        this.curriculoDocumentado.setDocente(this);
+    }
+
+    public void addSecao(Secao secao) {
+        this.curriculoDocumentado.addSecao(secao);
     }
 
     public long getId() {
@@ -41,6 +50,10 @@ public class Docente {
     }
 
     public CurriculoDocumentado getCurriculoDocumentado() {
+        if (this.curriculoDocumentado == null) {
+            this.curriculoDocumentado = new CurriculoDocumentado();
+            this.curriculoDocumentado.setDocente(this);
+        }
         return curriculoDocumentado;
     }
 
@@ -94,5 +107,19 @@ public class Docente {
 
     public void setResumoCurriculo(String resumoCurriculo) {
         this.resumoCurriculo = resumoCurriculo;
+    }
+
+    @Override
+    public String toString() {
+        return "Docente{" +
+                "id=" + id +
+                ", nome='" + nome + '\'' +
+                ", dataNascimento=" + dataNascimento +
+                ", nomeInstituicao='" + nomeInstituicao + '\'' +
+                ", cpf='" + cpf + '\'' +
+                ", sexo='" + sexo + '\'' +
+                ", resumoCurriculo='" + resumoCurriculo + '\'' +
+                ", curriculoDocumentado=" + curriculoDocumentado +
+                '}';
     }
 }

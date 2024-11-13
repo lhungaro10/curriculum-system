@@ -64,7 +64,8 @@ public class CadastroManual extends JDialog {
             public void actionPerformed(ActionEvent e) {
                 salvarDocente();
                 parent.setVisible(false);
-
+                PainelCurriculo painelCurriculo = new PainelCurriculo(sistemaCurriculo);
+                painelCurriculo.setVisible(true);
 
             }
         });

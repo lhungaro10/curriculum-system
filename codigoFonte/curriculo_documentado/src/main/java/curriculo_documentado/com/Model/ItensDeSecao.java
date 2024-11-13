@@ -55,4 +55,14 @@ public class ItensDeSecao {
     public void setDescricao(String descricao) {
         this.descricao = descricao;
     }
+
+    @Override
+    public String toString() {
+        return "ItensDeSecao{" +
+                "id=" + id +
+                ", anexo='" + anexo + '\'' +
+                ", nome='" + nome + '\'' +
+                ", descricao='" + descricao + '\'' +
+                '}';
+    }
 }

@@ -15,7 +15,7 @@ public class CurriculoDocumentado {
     @JoinColumn(name = "docente_id", foreignKey = @ForeignKey(name = "fk_docente_curriculo"), nullable = true)
     private Docente docente;
 
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Secao> secoes;
 
     public CurriculoDocumentado() {
@@ -44,5 +44,20 @@ public class CurriculoDocumentado {
 
     public Long getId() {
         return id;
+    }
+
+    public void addSecao(Secao secao) {
+        if (secao == null) {
+            throw new IllegalArgumentException("A seção não pode ser nula");
+        }
+        this.secoes.add(secao);
+    }
+
+    @Override
+    public String toString() {
+        return "CurriculoDocumentado{" +
+                "id=" + id +
+                ", secoes=" + secoes +
+                '}';
     }
 }
