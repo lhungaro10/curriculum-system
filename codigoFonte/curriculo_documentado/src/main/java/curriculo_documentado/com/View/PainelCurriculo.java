@@ -10,10 +10,12 @@ import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.util.List;
 
-public class PainelCurriculo extends JFrame {
+public class PainelCurriculo extends JFrame implements RefreshListener{
     private SIstemaCurriculo sistemaCurriculo;
     private JPanel mainPanel;
     private JPanel sectionsPanel;
+
+    public PainelCurriculo() {}
 
     public PainelCurriculo(SIstemaCurriculo sistemaCurriculo) {
         this.sistemaCurriculo = sistemaCurriculo;
@@ -38,7 +40,7 @@ public class PainelCurriculo extends JFrame {
 
         add(mainPanel);
 
-        refreshSections();
+        refreshSections(sectionsPanel);
     }
 
     private JMenuBar createMenuBar() {
@@ -74,18 +76,18 @@ public class PainelCurriculo extends JFrame {
     }
 
     private void ShowAddItemDialog() {
-        AdicionarItem dialog = new AdicionarItem(this, sistemaCurriculo);
+        AdicionarItem dialog = new AdicionarItem(this, sistemaCurriculo, sectionsPanel, this);
         dialog.setVisible(true);
         if (dialog.isItemAdded()) {
-            refreshSections();
+            refreshSections(sectionsPanel);
         }
     }
 
     private void showAddSectionDialog() {
-        AdicionarSecao dialog = new AdicionarSecao(this, sistemaCurriculo);
+        AdicionarSecao dialog = new AdicionarSecao(this, sistemaCurriculo, sectionsPanel, this);
         dialog.setVisible(true);
         if (dialog.isSectionAdded()) {
-            refreshSections();
+            refreshSections(sectionsPanel);
         }
     }
 
@@ -105,7 +107,8 @@ public class PainelCurriculo extends JFrame {
 //        }
 //    }
 
-    private void refreshSections() {
+    @Override
+    public void refreshSections(JPanel sectionsPanel) {
         // Limpa o conteúdo atual do sectionsPanel
         sectionsPanel.removeAll();
 
