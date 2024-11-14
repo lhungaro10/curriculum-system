@@ -3,6 +3,7 @@ package curriculo_documentado.com.Model;
 import jakarta.persistence.*;
 
 import java.util.Date;
+import java.util.List;
 
 
 @Entity(name = "docente")
@@ -39,6 +40,10 @@ public class Docente {
 
     public void addSecao(Secao secao) {
         this.curriculoDocumentado.addSecao(secao);
+    }
+
+    public List<Secao> getSecoes() {
+        return this.curriculoDocumentado.getSecoes();
     }
 
     public long getId() {

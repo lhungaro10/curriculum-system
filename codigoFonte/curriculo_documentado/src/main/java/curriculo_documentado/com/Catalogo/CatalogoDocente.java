@@ -3,11 +3,13 @@ package curriculo_documentado.com.Catalogo;
 import curriculo_documentado.com.InterfaceJpa.InterfaceJpa;
 import curriculo_documentado.com.Model.CurriculoDocumentado;
 import curriculo_documentado.com.Model.Docente;
+import curriculo_documentado.com.Model.ItensDeSecao;
 import curriculo_documentado.com.Model.Secao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 
 @SuppressWarnings("all")
@@ -51,5 +53,27 @@ public class CatalogoDocente {
         System.out.println(docente.get().toString());
         docente.get().getCurriculoDocumentado().addSecao(secao);
         System.out.println(this.docente.get().getCurriculoDocumentado().toString());
+    }
+
+    public void adicionarItemEmSecao(String nome, String descricao, String anexoPdf, Secao secao) {
+        ItensDeSecao itensDeSecao = new ItensDeSecao(anexoPdf, nome, descricao);
+        secao.addItemSecao(itensDeSecao);
+    }
+
+    public List<Secao> obterSecoes() {
+        return this.docente.get().getSecoes();
+    }
+
+    public List<ItensDeSecao> obterItensSecao(Secao secao) {
+        if (secao != null && secao.getItensDeSecao() != null) {
+            return secao.getItensDeSecao();
+        }
+        return null;
+    }
+
+    public void excluirItemDeSecao(ItensDeSecao itensDeSecao, Secao secao) {
+        if (secao != null && secao.getItensDeSecao().contains(itensDeSecao)) {
+            secao.getItensDeSecao().remove(itensDeSecao);
+        }
     }
 }

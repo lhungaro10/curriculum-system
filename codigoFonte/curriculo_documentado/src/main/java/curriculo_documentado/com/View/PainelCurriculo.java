@@ -40,6 +40,7 @@ public class PainelCurriculo extends JFrame {
     private JMenuBar createMenuBar() {
         JMenuBar menuBar = new JMenuBar();
         JMenu secaoMenu = new JMenu("Seção");
+        JMenu itensMenu = new JMenu("Itens");
 
         // Adicionar Seção
         JMenuItem addSecaoItem = new JMenuItem("Adicionar Seção");
@@ -53,12 +54,21 @@ public class PainelCurriculo extends JFrame {
         JMenuItem deleteSecaoItem = new JMenuItem("Excluir Seção");
 //        deleteSecaoItem.addActionListener(e -> showDeleteSectionDialog());
 
+        // Adicionar Item
+        JMenuItem addItensItem = new JMenuItem("Adicionar Item");
+        addItensItem.addActionListener(e -> ShowAddItemDialog());
+        
+
         secaoMenu.add(addSecaoItem);
         secaoMenu.add(editSecaoItem);
         secaoMenu.add(deleteSecaoItem);
 
         menuBar.add(secaoMenu);
         return menuBar;
+    }
+
+    private void ShowAddItemDialog() {
+
     }
 
     private void showAddSectionDialog() {

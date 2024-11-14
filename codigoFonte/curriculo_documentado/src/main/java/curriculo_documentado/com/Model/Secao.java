@@ -29,6 +29,10 @@ public class Secao {
         this.itensDeSecao = new ArrayList<>();
     }
 
+    public void addItemSecao(ItensDeSecao itensDeSecao) {
+        this.itensDeSecao.add(itensDeSecao);
+    }
+
     public long getId() {
         return id;
     }

@@ -22,6 +22,12 @@ public class ItensDeSecao {
         this.descricao = descricao;
     }
 
+    public ItensDeSecao(String anexo, String nome, String descricao) {
+        this.anexo = anexo;
+        this.nome = nome;
+        this.descricao = descricao;
+    }
+
     public ItensDeSecao() {}
 
     public long getId() {
