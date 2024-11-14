@@ -76,4 +76,8 @@ public class CatalogoDocente {
             secao.getItensDeSecao().remove(itensDeSecao);
         }
     }
+
+    public Docente obterDocente() {
+        return this.docente.get();
+    }
 }

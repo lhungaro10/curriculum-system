@@ -1,6 +1,7 @@
 package curriculo_documentado.com.Controller;
 
 import curriculo_documentado.com.Catalogo.CatalogoDocente;
+import curriculo_documentado.com.Model.Docente;
 import curriculo_documentado.com.Model.ItensDeSecao;
 import curriculo_documentado.com.Model.Secao;
 import org.springframework.stereotype.Component;
@@ -44,5 +45,9 @@ public class Controlador {
     }
     public void excluirItemDeSecao(ItensDeSecao itensDeSecao, Secao secao) {
         this.catalogoDocente.excluirItemDeSecao(itensDeSecao, secao);
+    }
+
+    public Docente obterDocente() {
+        return this.catalogoDocente.obterDocente();
     }
 }
