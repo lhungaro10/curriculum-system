@@ -64,7 +64,11 @@ public class PainelCurriculo extends JFrame implements RefreshListener{
         JMenuItem addItensItem = new JMenuItem("Adicionar Item");
         addItensItem.addActionListener(e -> ShowAddItemDialog());
 
+        JMenuItem editItensItem = new JMenuItem("Alterar Item");
+        editItensItem.addActionListener(e -> showEditItemDialog());
+
         itensMenu.add(addItensItem);
+        itensMenu.add(editItensItem);
 
         secaoMenu.add(addSecaoItem);
         secaoMenu.add(editSecaoItem);
@@ -95,6 +99,14 @@ public class PainelCurriculo extends JFrame implements RefreshListener{
         EditarSecao dialog = new EditarSecao(this, sistemaCurriculo, sectionsPanel, this);
         dialog.setVisible(true);
         if (dialog.isSectionUpdated()) {
+            refreshSections(sectionsPanel);
+        }
+    }
+
+    private void showEditItemDialog() {
+        EditarItem dialog = new EditarItem(this, sistemaCurriculo, sectionsPanel, this);
+        dialog.setVisible(true);
+        if (dialog.isItemUpdated()) {
             refreshSections(sectionsPanel);
         }
     }

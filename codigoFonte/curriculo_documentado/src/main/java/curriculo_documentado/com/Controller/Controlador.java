@@ -32,6 +32,11 @@ public class Controlador {
     public List<Secao> obterSecoes() {
         return this.catalogoDocente.obterSecoes();
     }
+
+    public List<ItensDeSecao> obterItensDeSecao(Secao secao) {
+        return this.catalogoDocente.obterItensSecao(secao);
+    }
+
     public void adicionarItemEmSecao(String nome, String descricao, String anexoPdf, Secao secao) {
         this.catalogoDocente.adicionarItemEmSecao(nome, descricao, anexoPdf, secao);
     }
