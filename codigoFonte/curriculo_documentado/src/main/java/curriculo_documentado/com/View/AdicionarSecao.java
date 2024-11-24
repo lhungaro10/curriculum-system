@@ -1,25 +1,16 @@
 package curriculo_documentado.com.View;
 
 import curriculo_documentado.com.Model.SIstemaCurriculo;
-import curriculo_documentado.com.Model.Secao;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
-import java.util.ArrayList;
 
 public class AdicionarSecao extends JDialog {
     private boolean sectionAdded;
-    private SIstemaCurriculo sistemaCurriculo;
-    private PainelCurriculo painelCurriculo;
-    private JPanel sectionsPanel;
-    private final RefreshListener refreshListener;
 
     public AdicionarSecao(JFrame parent, SIstemaCurriculo sistemaCurriculo, JPanel sectionsPanel, RefreshListener refreshListener) {
         super(parent, "Nova Seção", true);
-        this.sistemaCurriculo = sistemaCurriculo;
-        this.sectionsPanel = sectionsPanel;
-        this.refreshListener = refreshListener;
 
         setLayout(new BorderLayout(10, 10));
         setSize(500, 125);

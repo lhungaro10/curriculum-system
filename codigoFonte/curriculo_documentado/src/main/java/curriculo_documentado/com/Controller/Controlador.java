@@ -50,4 +50,12 @@ public class Controlador {
     public Docente obterDocente() {
         return this.catalogoDocente.obterDocente();
     }
+
+    public void modificarItemDeSecao(ItensDeSecao itemDeSecao, String nome, String novaDesc, String novoAnexo) {
+        this.catalogoDocente.modificarItemDeSecao(itemDeSecao, nome, novaDesc, novoAnexo);
+    }
+
+    public void modificarSecao (Secao secao, String nome) {
+        this.catalogoDocente.modificarSecao(secao, nome);
+    }
 }

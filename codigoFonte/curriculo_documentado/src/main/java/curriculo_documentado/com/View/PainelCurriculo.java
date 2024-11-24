@@ -54,7 +54,7 @@ public class PainelCurriculo extends JFrame implements RefreshListener{
 
         // Alterar Seção
         JMenuItem editSecaoItem = new JMenuItem("Alterar Seção");
-//        editSecaoItem.addActionListener(e -> showEditSectionDialog());
+        editSecaoItem.addActionListener(e -> showEditSectionDialog());
 
         // Excluir Seção
         JMenuItem deleteSecaoItem = new JMenuItem("Excluir Seção");
@@ -91,13 +91,13 @@ public class PainelCurriculo extends JFrame implements RefreshListener{
         }
     }
 
-//    private void showEditSectionDialog() {
-//        EditSectionDialog dialog = new EditSectionDialog(this, sistemaCurriculo);
-//        dialog.setVisible(true);
-//        if (dialog.isSectionUpdated()) {
-//            refreshSections();
-//        }
-//    }
+    private void showEditSectionDialog() {
+        EditarSecao dialog = new EditarSecao(this, sistemaCurriculo, sectionsPanel, this);
+        dialog.setVisible(true);
+        if (dialog.isSectionUpdated()) {
+            refreshSections(sectionsPanel);
+        }
+    }
 //
 //    private void showDeleteSectionDialog() {
 //        DeleteSectionDialog dialog = new DeleteSectionDialog(this, sistemaCurriculo);

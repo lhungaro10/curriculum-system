@@ -80,4 +80,15 @@ public class CatalogoDocente {
     public Docente obterDocente() {
         return this.docente.get();
     }
+
+    public void modificarItemDeSecao(ItensDeSecao itensDeSecao, String nome, String novaDesc, String novoAnexo) {
+        itensDeSecao.setNome(nome);
+        itensDeSecao.setAnexo(novaDesc);
+        itensDeSecao.setDescricao(novaDesc);
+        itensDeSecao.setAnexo(novoAnexo);
+    }
+
+    public void modificarSecao(Secao secao, String nome) {
+        secao.setNome(nome);
+    }
 }
