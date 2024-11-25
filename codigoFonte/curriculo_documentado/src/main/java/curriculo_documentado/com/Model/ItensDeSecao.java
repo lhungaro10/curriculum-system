@@ -2,15 +2,17 @@ package curriculo_documentado.com.Model;
 
 import jakarta.persistence.*;
 
-import java.sql.Date;
 @Entity(name = "itens_de_secao")
 public class ItensDeSecao {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    long id;
-    String anexo;
-    String nome;
-    String descricao;
+    private long id;
+
+    @Lob // Indica que o campo será armazenado como um BLOB no banco de dados
+    private byte[] anexo; // Altere de String para byte[]
+
+    private String nome;
+    private String descricao;
 
     @ManyToOne
     @JoinColumn(name = "secao_id") // Especifica a coluna de junção na tabela itens_de_secao
@@ -24,14 +26,15 @@ public class ItensDeSecao {
         this.secao = secao;
     }
 
-    public ItensDeSecao(long id, String anexo, String nome, String descricao) {
+    // Construtores
+    public ItensDeSecao(long id, byte[] anexo, String nome, String descricao) {
         this.id = id;
         this.anexo = anexo;
         this.nome = nome;
         this.descricao = descricao;
     }
 
-    public ItensDeSecao(String anexo, String nome, String descricao) {
+    public ItensDeSecao(byte[] anexo, String nome, String descricao) {
         this.anexo = anexo;
         this.nome = nome;
         this.descricao = descricao;
@@ -39,6 +42,7 @@ public class ItensDeSecao {
 
     public ItensDeSecao() {}
 
+    // Getters e Setters
     public long getId() {
         return id;
     }
@@ -47,11 +51,11 @@ public class ItensDeSecao {
         this.id = id;
     }
 
-    public String getAnexo() {
+    public byte[] getAnexo() {
         return anexo;
     }
 
-    public void setAnexo(String anexo) {
+    public void setAnexo(byte[] anexo) {
         this.anexo = anexo;
     }
 
@@ -75,7 +79,7 @@ public class ItensDeSecao {
     public String toString() {
         return "ItensDeSecao{" +
                 "id=" + id +
-                ", anexo='" + anexo + '\'' +
+                ", anexo=" + (anexo != null ? "[PDF armazenado]" : "null") +
                 ", nome='" + nome + '\'' +
                 ", descricao='" + descricao + '\'' +
                 '}';

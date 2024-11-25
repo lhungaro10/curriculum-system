@@ -16,7 +16,8 @@ public class EditarItem extends JDialog {
     private JComboBox<ItensDeSecao> itemComboBox;
     private JTextField nameField;
     private JTextField descricaoField;
-    private JTextField anexoField;
+    private JTextField anexoPathField; // Exibe o caminho do anexo
+    private byte[] anexoContent; // Armazena o conteúdo do PDF
     private boolean itemUpdated;
     private JPanel sectionsPanel;
     private RefreshListener refreshListener;
@@ -28,7 +29,7 @@ public class EditarItem extends JDialog {
         this.refreshListener = refreshListener;
 
         setLayout(new BorderLayout(10, 10));
-        setSize(700, 200);
+        setSize(700, 250);
 
         JPanel inputPanel = new JPanel(new GridLayout(5, 2, 5, 5));
         inputPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
@@ -55,13 +56,13 @@ public class EditarItem extends JDialog {
         descricaoField = new JTextField();
         inputPanel.add(descricaoField);
 
-        // Anexo (Texto para mostrar o caminho do arquivo)
-//        inputPanel.add(new JLabel("Anexo:"));
-        anexoField = new JTextField();
-        anexoField.setEditable(false);
-        inputPanel.add(anexoField);
+        // Caminho do Anexo
+        inputPanel.add(new JLabel("Caminho do Anexo:"));
+        anexoPathField = new JTextField();
+        anexoPathField.setEditable(false);
+        inputPanel.add(anexoPathField);
 
-        // Botão de Escolher Arquivo
+        // Botão de Escolher Anexo
         JButton chooseFileButton = new JButton("Escolher Anexo");
         chooseFileButton.addActionListener(e -> openFileChooserDialog());
         inputPanel.add(chooseFileButton);
@@ -73,10 +74,13 @@ public class EditarItem extends JDialog {
             ItensDeSecao selectedItem = (ItensDeSecao) itemComboBox.getSelectedItem();
             String name = nameField.getText().trim();
             String descricao = descricaoField.getText().trim();
-            String anexo = anexoField.getText().trim();
 
             if (!name.isEmpty() && selectedSection != null && selectedItem != null) {
-                sistemaCurriculo.getControlador().modificarItemDeSecao(selectedItem, name, descricao, anexo);
+                if (anexoContent == null || anexoContent.length == 0) {
+                    JOptionPane.showMessageDialog(this, "Por favor, selecione um arquivo PDF válido.", "Erro", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+                sistemaCurriculo.getControlador().modificarItemDeSecao(selectedItem, name, descricao, anexoContent);
                 refreshListener.refreshSections(sectionsPanel);
                 JOptionPane.showMessageDialog(this, "Item atualizado com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
                 itemUpdated = true;
@@ -86,7 +90,6 @@ public class EditarItem extends JDialog {
             }
         });
 
-//        inputPanel.add(saveButton);
         add(inputPanel, BorderLayout.CENTER);
         add(saveButton, BorderLayout.SOUTH);
         setLocationRelativeTo(parent);
@@ -109,11 +112,13 @@ public class EditarItem extends JDialog {
         if (selectedItem != null) {
             nameField.setText(selectedItem.getNome());
             descricaoField.setText(selectedItem.getDescricao());
-            anexoField.setText(selectedItem.getAnexo());
+            anexoPathField.setText("Arquivo carregado"); // Apenas um indicador
+            anexoContent = selectedItem.getAnexo(); // Caso já exista conteúdo associado
         } else {
             nameField.setText("");
             descricaoField.setText("");
-            anexoField.setText("");
+            anexoPathField.setText("");
+            anexoContent = null;
         }
     }
 
@@ -125,7 +130,13 @@ public class EditarItem extends JDialog {
         int result = fileChooser.showOpenDialog(this);
         if (result == JFileChooser.APPROVE_OPTION) {
             File selectedFile = fileChooser.getSelectedFile();
-            anexoField.setText(selectedFile.getAbsolutePath());
+            anexoPathField.setText(selectedFile.getAbsolutePath());
+
+            try {
+                anexoContent = java.nio.file.Files.readAllBytes(selectedFile.toPath());
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(this, "Erro ao ler o arquivo PDF.", "Erro", JOptionPane.ERROR_MESSAGE);
+            }
         }
     }
 

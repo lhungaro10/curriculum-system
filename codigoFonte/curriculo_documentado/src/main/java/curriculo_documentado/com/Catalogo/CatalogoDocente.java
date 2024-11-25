@@ -55,7 +55,7 @@ public class CatalogoDocente {
         System.out.println(this.docente.get().getCurriculoDocumentado().toString());
     }
 
-    public void adicionarItemEmSecao(String nome, String descricao, String anexoPdf, Secao secao) {
+    public void adicionarItemEmSecao(String nome, String descricao, byte[] anexoPdf, Secao secao) {
         ItensDeSecao itensDeSecao = new ItensDeSecao(anexoPdf, nome, descricao);
         secao.addItemSecao(itensDeSecao);
     }
@@ -81,9 +81,8 @@ public class CatalogoDocente {
         return this.docente.get();
     }
 
-    public void modificarItemDeSecao(ItensDeSecao itensDeSecao, String nome, String novaDesc, String novoAnexo) {
+    public void modificarItemDeSecao(ItensDeSecao itensDeSecao, String nome, String novaDesc, byte[] novoAnexo) {
         itensDeSecao.setNome(nome);
-        itensDeSecao.setAnexo(novaDesc);
         itensDeSecao.setDescricao(novaDesc);
         itensDeSecao.setAnexo(novoAnexo);
     }

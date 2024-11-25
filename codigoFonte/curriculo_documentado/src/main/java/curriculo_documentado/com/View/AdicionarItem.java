@@ -7,6 +7,8 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
 import java.util.List;
 
 public class AdicionarItem extends JDialog {
@@ -15,7 +17,7 @@ public class AdicionarItem extends JDialog {
     private JComboBox<Secao> sectionComboBox;
     private JTextField nameField;
     private JTextField descricaoField;
-    private JTextField anexoField;
+    private byte[] anexoField; // Alterado para byte[] para armazenar o conteúdo do PDF
     private JPanel sectionsPanel;
     private RefreshListener refreshListener;
 
@@ -46,31 +48,21 @@ public class AdicionarItem extends JDialog {
         inputPanel.add(new JLabel("Descrição:"));
         inputPanel.add(descricaoField);
 
-        // Anexo (Texto para mostrar o caminho do arquivo)
-//        inputPanel.add(new JLabel("Anexo:"));
-        anexoField = new JTextField();
-        anexoField.setEditable(false); // Apenas para visualização do caminho do arquivo
-        inputPanel.add(anexoField);
-
         // Botão de Salvar
         JButton saveButton = new JButton("Salvar");
         saveButton.addActionListener(e -> {
             Secao selectedSection = (Secao) sectionComboBox.getSelectedItem();
             String name = nameField.getText().trim();
             String descricao = descricaoField.getText().trim();
-//            String anexo = anexoField.getText().trim();
-            String anexo = "Teste Teste";
-            System.out.println(anexo);
 
-            if (!name.isEmpty() && selectedSection != null && !anexo.isEmpty()) {
+            if (!name.isEmpty() && selectedSection != null && anexoField != null && anexoField.length > 0) {
                 // Adiciona o item à seção selecionada
-                sistemaCurriculo.getControlador().adicionarItemEmSecao(name, descricao, anexo, selectedSection);
+                sistemaCurriculo.getControlador().adicionarItemEmSecao(name, descricao, anexoField, selectedSection);
                 itemAdded = true;
-//                dispose();
                 refreshListener.refreshSections(sectionsPanel);
                 nameField.setText("");
                 descricaoField.setText("");
-                anexoField.setText("");
+                anexoField = null;
             } else {
                 JOptionPane.showMessageDialog(this, "Por favor, preencha todos os campos e selecione um arquivo PDF.", "Erro", JOptionPane.ERROR_MESSAGE);
             }
@@ -90,43 +82,23 @@ public class AdicionarItem extends JDialog {
     }
 
     private void openFileChooserDialog() {
-        // Criar um JDialog separado para o JFileChooser
-        JDialog fileChooserDialog = new JDialog(this, "Escolher Arquivo", true);
-        fileChooserDialog.setSize(700, 400);
-        fileChooserDialog.setLayout(new BorderLayout());
-
-        // Cria um JFileChooser
         JFileChooser fileChooser = new JFileChooser();
         fileChooser.setAcceptAllFileFilterUsed(false);
         fileChooser.addChoosableFileFilter(new javax.swing.filechooser.FileNameExtensionFilter("Arquivos PDF", "pdf"));
 
-        // Painel de exibição do JFileChooser
-        JPanel panel = new JPanel();
-        panel.add(fileChooser);
-        fileChooserDialog.add(panel, BorderLayout.CENTER);
-
-        // Botões de ação
-        JPanel buttonPanel = new JPanel();
-        JButton okButton = new JButton("OK");
-        okButton.addActionListener(e -> {
+        int result = fileChooser.showOpenDialog(this);
+        if (result == JFileChooser.APPROVE_OPTION) {
             File selectedFile = fileChooser.getSelectedFile();
             if (selectedFile != null) {
-                // Atualiza o campo de anexo com o caminho do arquivo
-                anexoField.setText(selectedFile.getAbsolutePath());
+                try {
+                    // Lê o conteúdo do arquivo PDF como byte[]
+                    anexoField = Files.readAllBytes(selectedFile.toPath());
+                    JOptionPane.showMessageDialog(this, "Arquivo selecionado: " + selectedFile.getName(), "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+                } catch (IOException ex) {
+                    JOptionPane.showMessageDialog(this, "Erro ao ler o arquivo.", "Erro", JOptionPane.ERROR_MESSAGE);
+                }
             }
-            fileChooserDialog.dispose(); // Fecha o dialog após a seleção
-        });
-
-        JButton cancelButton = new JButton("Cancelar");
-        cancelButton.addActionListener(e -> fileChooserDialog.dispose()); // Fecha o dialog sem fazer nada
-
-        buttonPanel.add(okButton);
-        buttonPanel.add(cancelButton);
-        fileChooserDialog.add(buttonPanel, BorderLayout.SOUTH);
-
-        // Exibe o JDialog
-        fileChooserDialog.setLocationRelativeTo(this);
-        fileChooserDialog.setVisible(true);
+        }
     }
 
     private Secao[] obterSecoes() {
