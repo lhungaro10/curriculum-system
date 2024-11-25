@@ -2,10 +2,11 @@ package curriculo_documentado.com.Controller;
 
 import curriculo_documentado.com.Catalogo.CatalogoDocente;
 import curriculo_documentado.com.Model.Docente;
-import curriculo_documentado.com.Model.ItensDeSecao;
+import curriculo_documentado.com.Model.ItemDeSecao;
 import curriculo_documentado.com.Model.Secao;
 import org.springframework.stereotype.Component;
 
+import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 
@@ -33,7 +34,7 @@ public class Controlador {
         return this.catalogoDocente.obterSecoes();
     }
 
-    public List<ItensDeSecao> obterItensDeSecao(Secao secao) {
+    public List<ItemDeSecao> obterItensDeSecao(Secao secao) {
         return this.catalogoDocente.obterItensSecao(secao);
     }
 
@@ -45,22 +46,26 @@ public class Controlador {
      * Excluir item de Seção
      * TESTAR E IMPLEMENTAR A INTERFACE
      */
-    public List<ItensDeSecao> obterItensSecao(Secao secao) {
+    public List<ItemDeSecao> obterItensSecao(Secao secao) {
         return this.catalogoDocente.obterItensSecao(secao);
     }
-    public void excluirItemDeSecao(ItensDeSecao itensDeSecao, Secao secao) {
-        this.catalogoDocente.excluirItemDeSecao(itensDeSecao, secao);
+    public void excluirItemDeSecao(ItemDeSecao itemDeSecao, Secao secao) {
+        this.catalogoDocente.excluirItemDeSecao(itemDeSecao, secao);
     }
 
     public Docente obterDocente() {
         return this.catalogoDocente.obterDocente();
     }
 
-    public void modificarItemDeSecao(ItensDeSecao itemDeSecao, String nome, String novaDesc, byte[] novoAnexo) {
+    public void modificarItemDeSecao(ItemDeSecao itemDeSecao, String nome, String novaDesc, byte[] novoAnexo) {
         this.catalogoDocente.modificarItemDeSecao(itemDeSecao, nome, novaDesc, novoAnexo);
     }
 
     public void modificarSecao (Secao secao, String nome) {
         this.catalogoDocente.modificarSecao(secao, nome);
+    }
+
+    public void gerarCurriculoDocumentado() throws IOException {
+        this.catalogoDocente.gerarCurriculoDocumentado();
     }
 }

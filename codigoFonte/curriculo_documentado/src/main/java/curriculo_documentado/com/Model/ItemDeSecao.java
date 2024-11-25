@@ -3,7 +3,7 @@ package curriculo_documentado.com.Model;
 import jakarta.persistence.*;
 
 @Entity(name = "itens_de_secao")
-public class ItensDeSecao {
+public class ItemDeSecao {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
@@ -27,20 +27,20 @@ public class ItensDeSecao {
     }
 
     // Construtores
-    public ItensDeSecao(long id, byte[] anexo, String nome, String descricao) {
+    public ItemDeSecao(long id, byte[] anexo, String nome, String descricao) {
         this.id = id;
         this.anexo = anexo;
         this.nome = nome;
         this.descricao = descricao;
     }
 
-    public ItensDeSecao(byte[] anexo, String nome, String descricao) {
+    public ItemDeSecao(byte[] anexo, String nome, String descricao) {
         this.anexo = anexo;
         this.nome = nome;
         this.descricao = descricao;
     }
 
-    public ItensDeSecao() {}
+    public ItemDeSecao() {}
 
     // Getters e Setters
     public long getId() {

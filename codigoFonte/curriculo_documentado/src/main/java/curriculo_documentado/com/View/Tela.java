@@ -48,7 +48,8 @@ public class Tela extends JFrame {
         gbc.gridy = 1;
         gbc.insets = new Insets(10, 0, 10, 0);
         mainPanel.add(btnExportar, gbc);
-
+        setResizable(false);
+        setLocationRelativeTo(null);
         // Adiciona o painel principal à janela
         add(mainPanel, BorderLayout.CENTER);
     }

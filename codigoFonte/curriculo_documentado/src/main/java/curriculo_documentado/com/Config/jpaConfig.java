@@ -20,7 +20,7 @@ public class jpaConfig {
     public DataSource dataSource() {
         MysqlDataSource dataSource = new MysqlDataSource();
         dataSource.setURL("jdbc:mysql://localhost:3306/curriculo");
-        dataSource.setUser("root1");
+        dataSource.setUser("root");
         dataSource.setPassword("root123");
         return dataSource;
     }

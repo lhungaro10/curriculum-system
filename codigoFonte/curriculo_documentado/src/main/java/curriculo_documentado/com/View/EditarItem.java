@@ -1,6 +1,6 @@
 package curriculo_documentado.com.View;
 
-import curriculo_documentado.com.Model.ItensDeSecao;
+import curriculo_documentado.com.Model.ItemDeSecao;
 import curriculo_documentado.com.Model.Secao;
 import curriculo_documentado.com.Model.SIstemaCurriculo;
 
@@ -13,7 +13,7 @@ import java.util.List;
 public class EditarItem extends JDialog {
     private SIstemaCurriculo sistemaCurriculo;
     private JComboBox<Secao> sectionComboBox;
-    private JComboBox<ItensDeSecao> itemComboBox;
+    private JComboBox<ItemDeSecao> itemComboBox;
     private JTextField nameField;
     private JTextField descricaoField;
     private JTextField anexoPathField; // Exibe o caminho do anexo
@@ -71,7 +71,7 @@ public class EditarItem extends JDialog {
         JButton saveButton = new JButton("Salvar");
         saveButton.addActionListener(e -> {
             Secao selectedSection = (Secao) sectionComboBox.getSelectedItem();
-            ItensDeSecao selectedItem = (ItensDeSecao) itemComboBox.getSelectedItem();
+            ItemDeSecao selectedItem = (ItemDeSecao) itemComboBox.getSelectedItem();
             String name = nameField.getText().trim();
             String descricao = descricaoField.getText().trim();
 
@@ -101,14 +101,14 @@ public class EditarItem extends JDialog {
     private void atualizarItensDeSecao() {
         Secao selectedSection = (Secao) sectionComboBox.getSelectedItem();
         if (selectedSection != null) {
-            List<ItensDeSecao> itens = sistemaCurriculo.getControlador().obterItensDeSecao(selectedSection);
-            itemComboBox.setModel(new DefaultComboBoxModel<>(itens.toArray(new ItensDeSecao[0])));
+            List<ItemDeSecao> itens = sistemaCurriculo.getControlador().obterItensDeSecao(selectedSection);
+            itemComboBox.setModel(new DefaultComboBoxModel<>(itens.toArray(new ItemDeSecao[0])));
             preencherCamposDoItem();
         }
     }
 
     private void preencherCamposDoItem() {
-        ItensDeSecao selectedItem = (ItensDeSecao) itemComboBox.getSelectedItem();
+        ItemDeSecao selectedItem = (ItemDeSecao) itemComboBox.getSelectedItem();
         if (selectedItem != null) {
             nameField.setText(selectedItem.getNome());
             descricaoField.setText(selectedItem.getDescricao());
