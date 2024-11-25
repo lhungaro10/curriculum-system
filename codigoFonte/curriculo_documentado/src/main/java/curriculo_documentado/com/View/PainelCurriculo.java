@@ -1,5 +1,9 @@
 package curriculo_documentado.com.View;
 
+import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.pdf.PdfWriter;
+
 import curriculo_documentado.com.Model.Docente;
 import curriculo_documentado.com.Model.ItensDeSecao;
 import curriculo_documentado.com.Model.SIstemaCurriculo;
@@ -7,7 +11,10 @@ import curriculo_documentado.com.Model.Secao;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
+import javax.swing.text.Document;
 import java.awt.*;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.List;
 
 public class PainelCurriculo extends JFrame implements RefreshListener{
@@ -178,7 +185,6 @@ public class PainelCurriculo extends JFrame implements RefreshListener{
         sectionsPanel.revalidate();
         sectionsPanel.repaint();
     }
-
 
     private void addImagePanel() {
         // Criar o painel para exibir a imagem, ocupando todo o espaço do sectionsPanel

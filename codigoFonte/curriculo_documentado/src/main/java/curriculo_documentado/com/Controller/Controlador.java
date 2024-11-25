@@ -37,7 +37,7 @@ public class Controlador {
         return this.catalogoDocente.obterItensSecao(secao);
     }
 
-    public void adicionarItemEmSecao(String nome, String descricao, String anexoPdf, Secao secao) {
+    public void adicionarItemEmSecao(String nome, String descricao, byte[] anexoPdf, Secao secao) {
         this.catalogoDocente.adicionarItemEmSecao(nome, descricao, anexoPdf, secao);
     }
 
@@ -56,7 +56,7 @@ public class Controlador {
         return this.catalogoDocente.obterDocente();
     }
 
-    public void modificarItemDeSecao(ItensDeSecao itemDeSecao, String nome, String novaDesc, String novoAnexo) {
+    public void modificarItemDeSecao(ItensDeSecao itemDeSecao, String nome, String novaDesc, byte[] novoAnexo) {
         this.catalogoDocente.modificarItemDeSecao(itemDeSecao, nome, novaDesc, novoAnexo);
     }
 
