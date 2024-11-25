@@ -17,11 +17,9 @@ public class Secao {
      * @OneToMany em Secao: Define a lista de itens (itensDeSecao) e mapeia-a com mappedBy = "secao", que se refere à propriedade secao de ItensDeSecao.
      */
     @OneToMany(mappedBy = "secao", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
-    List<ItensDeSecao> itensDeSecao;
-//    @OneToMany(fetch = FetchType.EAGER, orphanRemoval = true, cascade = CascadeType.ALL,  mappedBy = "secao")
-//    List<ItensDeSecao> itensDeSecao;
+    List<ItemDeSecao> itensDeSecao;
 
-    public Secao(long id, String nome, List<ItensDeSecao> itensDeSecao) {
+    public Secao(long id, String nome, List<ItemDeSecao> itensDeSecao) {
         this.id = id;
         this.nome = nome;
         this.itensDeSecao = itensDeSecao;
@@ -36,9 +34,9 @@ public class Secao {
         this.itensDeSecao = new ArrayList<>();
     }
 
-    public void addItemSecao(ItensDeSecao itensDeSecao) {
-        itensDeSecao.setSecao(this);
-        this.itensDeSecao.add(itensDeSecao);
+    public void addItemSecao(ItemDeSecao itemDeSecao) {
+        itemDeSecao.setSecao(this);
+        this.itensDeSecao.add(itemDeSecao);
     }
 
     public long getId() {
@@ -57,12 +55,12 @@ public class Secao {
         this.nome = nome;
     }
 
-    public List<ItensDeSecao> getItensDeSecao() {
+    public List<ItemDeSecao> getItensDeSecao() {
         return itensDeSecao;
     }
 
-    public void setItensDeSecao(List<ItensDeSecao> itensDeSecao) {
-        this.itensDeSecao = itensDeSecao;
+    public void setItensDeSecao(List<ItemDeSecao> itemDeSecao) {
+        this.itensDeSecao = itemDeSecao;
     }
 
     @Override

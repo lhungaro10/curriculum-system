@@ -1,13 +1,14 @@
 package curriculo_documentado.com.Catalogo;
 
 import curriculo_documentado.com.InterfaceJpa.InterfaceJpa;
-import curriculo_documentado.com.Model.CurriculoDocumentado;
 import curriculo_documentado.com.Model.Docente;
-import curriculo_documentado.com.Model.ItensDeSecao;
+import curriculo_documentado.com.Model.ItemDeSecao;
 import curriculo_documentado.com.Model.Secao;
+import curriculo_documentado.com.Service.ServiceGeradorHtmlCurriculo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -17,10 +18,12 @@ import java.util.Optional;
 public class CatalogoDocente {
     private Optional<Docente> docente;
     private InterfaceJpa interfaceJpa;
+    private final ServiceGeradorHtmlCurriculo serviceGeradorHtmlCurriculo;
 
     @Autowired
-    public CatalogoDocente(InterfaceJpa interfaceJpa) {
+    public CatalogoDocente(InterfaceJpa interfaceJpa, ServiceGeradorHtmlCurriculo serviceGeradorHtmlCurriculo) {
         this.interfaceJpa = interfaceJpa;
+        this.serviceGeradorHtmlCurriculo = serviceGeradorHtmlCurriculo;
         carregarDocente();
     }
 
@@ -56,35 +59,39 @@ public class CatalogoDocente {
     }
 
     public void adicionarItemEmSecao(String nome, String descricao, byte[] anexoPdf, Secao secao) {
-        ItensDeSecao itensDeSecao = new ItensDeSecao(anexoPdf, nome, descricao);
-        secao.addItemSecao(itensDeSecao);
+        ItemDeSecao itemDeSecao = new ItemDeSecao(anexoPdf, nome, descricao);
+        secao.addItemSecao(itemDeSecao);
     }
 
     public List<Secao> obterSecoes() {
         return this.docente.get().getSecoes();
     }
 
-    public List<ItensDeSecao> obterItensSecao(Secao secao) {
+    public List<ItemDeSecao> obterItensSecao(Secao secao) {
         if (secao != null && secao.getItensDeSecao() != null) {
             return secao.getItensDeSecao();
         }
         return null;
     }
 
-    public void excluirItemDeSecao(ItensDeSecao itensDeSecao, Secao secao) {
-        if (secao != null && secao.getItensDeSecao().contains(itensDeSecao)) {
-            secao.getItensDeSecao().remove(itensDeSecao);
+    public void excluirItemDeSecao(ItemDeSecao itemDeSecao, Secao secao) {
+        if (secao != null && secao.getItensDeSecao().contains(itemDeSecao)) {
+            secao.getItensDeSecao().remove(itemDeSecao);
         }
     }
+
+     public void gerarCurriculoDocumentado() throws IOException {
+        this.serviceGeradorHtmlCurriculo.gerarCurriculoHtmlPdf(this.docente.get().getCurriculoDocumentado());
+     }
 
     public Docente obterDocente() {
         return this.docente.get();
     }
 
-    public void modificarItemDeSecao(ItensDeSecao itensDeSecao, String nome, String novaDesc, byte[] novoAnexo) {
-        itensDeSecao.setNome(nome);
-        itensDeSecao.setDescricao(novaDesc);
-        itensDeSecao.setAnexo(novoAnexo);
+    public void modificarItemDeSecao(ItemDeSecao itemDeSecao, String nome, String novaDesc, byte[] novoAnexo) {
+        itemDeSecao.setNome(nome);
+        itemDeSecao.setDescricao(novaDesc);
+        itemDeSecao.setAnexo(novoAnexo);
     }
 
     public void modificarSecao(Secao secao, String nome) {
