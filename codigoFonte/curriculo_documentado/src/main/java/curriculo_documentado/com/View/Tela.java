@@ -5,7 +5,6 @@ import curriculo_documentado.com.Config.jpaConfig;
 import curriculo_documentado.com.Model.SIstemaCurriculo;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -55,30 +54,24 @@ public class Tela extends JFrame {
     }
 
     public static void main(String[] args) {
+        // Inicializa o contexto de configuração JPA
         AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(appConfig.class, jpaConfig.class);
 
         SwingUtilities.invokeLater(() -> {
             sistemaCurriculo = context.getBean(SIstemaCurriculo.class);
             var docente = sistemaCurriculo.getCatalogoDocente().getDocente();
-
-            JFrame mainFrame;
             if (docente.isEmpty()) {
-                mainFrame = new Tela(context);
+                new Tela(context).setVisible(true);
             } else {
-                mainFrame = new PainelCurriculo(sistemaCurriculo);
+                PainelCurriculo painelCurriculo = new PainelCurriculo(sistemaCurriculo);
+                painelCurriculo.setVisible(true);
             }
-
-            mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-            mainFrame.addWindowListener(new java.awt.event.WindowAdapter() {
-                @Override
-                public void windowClosing(java.awt.event.WindowEvent windowEvent) {
-
-                    sistemaCurriculo.fecharSistema();
-                    context.close();
-                }
-            });
-
-            mainFrame.setVisible(true);
         });
+
+        // Adiciona um hook de encerramento para fechar o contexto ao finalizar o programa
+        Runtime.getRuntime().addShutdownHook(new Thread(()->{
+            sistemaCurriculo.fecharSistema();
+            context.close();
+        }));
     }
 }
