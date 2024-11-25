@@ -10,9 +10,16 @@ public class Secao {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     long id;
+    @Column(unique = true, nullable = false)
     String nome;
-    @OneToMany(fetch = FetchType.EAGER, orphanRemoval = true)
+
+    /**
+     * @OneToMany em Secao: Define a lista de itens (itensDeSecao) e mapeia-a com mappedBy = "secao", que se refere à propriedade secao de ItensDeSecao.
+     */
+    @OneToMany(mappedBy = "secao", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     List<ItensDeSecao> itensDeSecao;
+//    @OneToMany(fetch = FetchType.EAGER, orphanRemoval = true, cascade = CascadeType.ALL,  mappedBy = "secao")
+//    List<ItensDeSecao> itensDeSecao;
 
     public Secao(long id, String nome, List<ItensDeSecao> itensDeSecao) {
         this.id = id;
@@ -27,6 +34,11 @@ public class Secao {
     public Secao(String nome) {
         this.nome = nome;
         this.itensDeSecao = new ArrayList<>();
+    }
+
+    public void addItemSecao(ItensDeSecao itensDeSecao) {
+        itensDeSecao.setSecao(this);
+        this.itensDeSecao.add(itensDeSecao);
     }
 
     public long getId() {
