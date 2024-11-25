@@ -1,18 +1,20 @@
 package curriculo_documentado.com.View;
 
-import com.itextpdf.text.DocumentException;
-import com.itextpdf.text.Paragraph;
-import com.itextpdf.text.pdf.PdfWriter;
-
 import curriculo_documentado.com.Model.Docente;
 import curriculo_documentado.com.Model.ItensDeSecao;
 import curriculo_documentado.com.Model.SIstemaCurriculo;
 import curriculo_documentado.com.Model.Secao;
+import org.apache.pdfbox.pdmodel.PDDocument;
+import org.apache.pdfbox.pdmodel.PDPage;
+import org.apache.pdfbox.pdmodel.PDPageContentStream;
+
+import org.apache.pdfbox.pdmodel.font.PDType1Font;
+import org.apache.pdfbox.pdmodel.font.Standard14Fonts;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
-import javax.swing.text.Document;
 import java.awt.*;
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.List;
@@ -54,6 +56,7 @@ public class PainelCurriculo extends JFrame implements RefreshListener{
         JMenuBar menuBar = new JMenuBar();
         JMenu secaoMenu = new JMenu("Seção");
         JMenu itensMenu = new JMenu("Itens");
+        JMenu pdfMenu = new JMenu("PDF");
 
         // Adicionar Seção
         JMenuItem addSecaoItem = new JMenuItem("Adicionar Seção");
@@ -74,6 +77,10 @@ public class PainelCurriculo extends JFrame implements RefreshListener{
         JMenuItem editItensItem = new JMenuItem("Alterar Item");
         editItensItem.addActionListener(e -> showEditItemDialog());
 
+        // Gerar PDF
+        JMenuItem generatePdfItem = new JMenuItem("Gerar PDF");
+        generatePdfItem.addActionListener(e -> generatePdf());
+
         itensMenu.add(addItensItem);
         itensMenu.add(editItensItem);
 
@@ -81,8 +88,11 @@ public class PainelCurriculo extends JFrame implements RefreshListener{
         secaoMenu.add(editSecaoItem);
         secaoMenu.add(deleteSecaoItem);
 
+        pdfMenu.add(generatePdfItem);
+
         menuBar.add(secaoMenu);
         menuBar.add(itensMenu);
+        menuBar.add(pdfMenu);
         return menuBar;
     }
 
@@ -236,6 +246,72 @@ public class PainelCurriculo extends JFrame implements RefreshListener{
 
         // Adiciona o JScrollPane ao painel principal de seções
         sectionsPanel.add(scrollPane);
+    }
+
+    private void generatePdf() {
+        // Lista de opções (nomes dos anexos disponíveis)
+        List<Secao> sections = sistemaCurriculo.getControlador().obterSecoes();
+        if (sections.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Nenhuma seção disponível para gerar PDF.");
+            return;
+        }
+
+        // Exibir opções em um diálogo
+        String[] options = sections.stream().map(Secao::getNome).toArray(String[]::new);
+        String selectedSection = (String) JOptionPane.showInputDialog(
+                this,
+                "Selecione o anexo para baixar como PDF:",
+                "Baixar PDF",
+                JOptionPane.PLAIN_MESSAGE,
+                null,
+                options,
+                options[0]
+        );
+
+        // Se o usuário cancelar ou não selecionar nada, interrompe
+        if (selectedSection == null) {
+            return;
+        }
+
+        // Encontra a seção correspondente ao nome selecionado
+        Secao chosenSection = sections.stream()
+                .filter(section -> section.getNome().equals(selectedSection))
+                .findFirst()
+                .orElse(null);
+
+        if (chosenSection != null) {
+            // Encontrar o item de anexo desejado dentro da seção
+            ItensDeSecao selectedItem = chosenSection.getItensDeSecao().stream()
+                    .filter(item -> item.getNome().equals(selectedSection))
+                    .findFirst()
+                    .orElse(null);
+
+            if (selectedItem != null) {
+                // Chama o método para fazer o download do PDF
+                downloadPdf(selectedItem);
+            }
+        }
+    }
+
+
+    private void downloadPdf(ItensDeSecao item) {
+        byte[] pdfData = item.getAnexo();  // Recupera o PDF armazenado no banco
+
+        if (pdfData == null || pdfData.length == 0) {
+            JOptionPane.showMessageDialog(this, "Este item não possui anexo PDF.");
+            return;
+        }
+
+        // Define o nome do arquivo como o nome do item
+        String fileName = item.getNome() + ".pdf";
+
+        try (FileOutputStream fos = new FileOutputStream(fileName)) {
+            fos.write(pdfData);  // Escreve os bytes no arquivo
+            JOptionPane.showMessageDialog(this, "PDF salvo como " + fileName);
+        } catch (IOException e) {
+            JOptionPane.showMessageDialog(this, "Erro ao salvar o PDF: " + e.getMessage());
+            e.printStackTrace();
+        }
     }
 
 }
