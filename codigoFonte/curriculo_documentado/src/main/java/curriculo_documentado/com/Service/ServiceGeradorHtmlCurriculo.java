@@ -12,19 +12,18 @@ import java.io.IOException;
 @Service
 public class ServiceGeradorHtmlCurriculo {
 
-    private static final String DOWNLOADS_DIR = System.getProperty("user.home") + "/Downloads/";
+
 
     public void gerarCurriculoHtmlPdf(CurriculoDocumentado curriculo) throws IOException {
-        // Diretório Downloads (sem subpasta)
-        File downloadDir = new File(DOWNLOADS_DIR);
+        var dowloads_dir = System.getProperty("user.home") + "/Downloads/";
+        File downloadDir = new File(dowloads_dir);
         if (!downloadDir.exists()) {
             downloadDir.mkdirs();
         }
 
-        // Nome do arquivo HTML
+
         File htmlFile = new File(downloadDir, "curriculo_" + curriculo.getDocente().getCpf() + ".html");
 
-        // Gerar HTML com links para os PDFs
         String htmlContent = gerarHtml(curriculo, downloadDir);
         try (FileOutputStream fos = new FileOutputStream(htmlFile)) {
             fos.write(htmlContent.getBytes());
