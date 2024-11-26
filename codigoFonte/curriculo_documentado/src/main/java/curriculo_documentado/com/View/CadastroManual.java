@@ -63,7 +63,7 @@ public class CadastroManual extends JDialog {
             @Override
             public void actionPerformed(ActionEvent e) {
                 salvarDocente();
-                parent.setVisible(false);
+                parent.dispose();
                 PainelCurriculo painelCurriculo = new PainelCurriculo(sistemaCurriculo);
                 painelCurriculo.setVisible(true);
 
