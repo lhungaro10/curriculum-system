@@ -57,9 +57,19 @@ public class Tela extends JFrame {
         // Inicializa o contexto de configuração JPA
         AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(appConfig.class, jpaConfig.class);
 
+        // Adiciona um hook de encerramento para fechar o contexto ao finalizar o programa
+        Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+            if (sistemaCurriculo != null) {
+                sistemaCurriculo.fecharSistema();
+            }
+            context.close();
+        }));
+
+        // Obtém o sistema do contexto
+        sistemaCurriculo = context.getBean(SIstemaCurriculo.class);
+        var docente = sistemaCurriculo.getCatalogoDocente().getDocente();
+
         SwingUtilities.invokeLater(() -> {
-            sistemaCurriculo = context.getBean(SIstemaCurriculo.class);
-            var docente = sistemaCurriculo.getCatalogoDocente().getDocente();
             if (docente.isEmpty()) {
                 new Tela(context).setVisible(true);
             } else {
@@ -67,11 +77,5 @@ public class Tela extends JFrame {
                 painelCurriculo.setVisible(true);
             }
         });
-
-        // Adiciona um hook de encerramento para fechar o contexto ao finalizar o programa
-        Runtime.getRuntime().addShutdownHook(new Thread(()->{
-            sistemaCurriculo.fecharSistema();
-            context.close();
-        }));
     }
 }
