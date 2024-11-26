@@ -49,7 +49,7 @@ public class PainelCurriculo extends JFrame implements RefreshListener{
         JMenuBar menuBar = new JMenuBar();
         JMenu secaoMenu = new JMenu("Seção");
         JMenu itensMenu = new JMenu("Itens");
-        JMenu pdfMenu = new JMenu("PDF");
+        JMenu pdfMenu = new JMenu("Curriculo");
 
         // Adicionar Seção
         JMenuItem addSecaoItem = new JMenuItem("Adicionar Seção");
@@ -70,7 +70,7 @@ public class PainelCurriculo extends JFrame implements RefreshListener{
         JMenuItem editItensItem = new JMenuItem("Alterar Item");
         editItensItem.addActionListener(e -> showEditItemDialog());
 
-        JMenuItem generatePdfItem = new JMenuItem("Gerar Curriculo Documentado");
+        JMenuItem generatePdfItem = new JMenuItem("Gerar");
         generatePdfItem.addActionListener(e -> {
             GerarCurriculoDocumentado gerarCurriculoDocumentadoView = new GerarCurriculoDocumentado(sistemaCurriculo);
             gerarCurriculoDocumentadoView.setVisible(true);
@@ -242,71 +242,4 @@ public class PainelCurriculo extends JFrame implements RefreshListener{
         // Adiciona o JScrollPane ao painel principal de seções
         sectionsPanel.add(scrollPane);
     }
-
-//    private void generatePdf() {
-//        // Lista de opções (nomes dos anexos disponíveis)
-//        List<Secao> sections = sistemaCurriculo.getControlador().obterSecoes();
-//        if (sections.isEmpty()) {
-//            JOptionPane.showMessageDialog(this, "Nenhuma seção disponível para gerar PDF.");
-//            return;
-//        }
-//
-//        // Exibir opções em um diálogo
-//        String[] options = sections.stream().map(Secao::getNome).toArray(String[]::new);
-//        String selectedSection = (String) JOptionPane.showInputDialog(
-//                this,
-//                "Selecione o anexo para baixar como PDF:",
-//                "Baixar PDF",
-//                JOptionPane.PLAIN_MESSAGE,
-//                null,
-//                options,
-//                options[0]
-//        );
-//
-//        // Se o usuário cancelar ou não selecionar nada, interrompe
-//        if (selectedSection == null) {
-//            return;
-//        }
-//
-//        // Encontra a seção correspondente ao nome selecionado
-//        Secao chosenSection = sections.stream()
-//                .filter(section -> section.getNome().equals(selectedSection))
-//                .findFirst()
-//                .orElse(null);
-//
-//        if (chosenSection != null) {
-//            // Encontrar o item de anexo desejado dentro da seção
-//            ItemDeSecao selectedItem = chosenSection.getItensDeSecao().stream()
-//                    .filter(item -> item.getNome().equals(selectedSection))
-//                    .findFirst()
-//                    .orElse(null);
-//
-//            if (selectedItem != null) {
-//                // Chama o método para fazer o download do PDF
-//                downloadPdf(selectedItem);
-//            }
-//        }
-//    }
-//
-//
-//    private void downloadPdf(ItemDeSecao item) {
-//        byte[] pdfData = item.getAnexo();  // Recupera o PDF armazenado no banco
-//
-//        if (pdfData == null || pdfData.length == 0) {
-//            JOptionPane.showMessageDialog(this, "Este item não possui anexo PDF.");
-//            return;
-//        }
-//
-//        // Define o nome do arquivo como o nome do item
-//        String fileName = item.getNome() + ".pdf";
-//
-//        try (FileOutputStream fos = new FileOutputStream(fileName)) {
-//            fos.write(pdfData);  // Escreve os bytes no arquivo
-//            JOptionPane.showMessageDialog(this, "PDF salvo como " + fileName);
-//        } catch (IOException e) {
-//            JOptionPane.showMessageDialog(this, "Erro ao salvar o PDF: " + e.getMessage());
-//            e.printStackTrace();
-//        }
-//    }
-
 }
