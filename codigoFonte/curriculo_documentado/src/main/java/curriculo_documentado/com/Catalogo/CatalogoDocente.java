@@ -5,6 +5,7 @@ import curriculo_documentado.com.Model.Docente;
 import curriculo_documentado.com.Model.ItemDeSecao;
 import curriculo_documentado.com.Model.Secao;
 import curriculo_documentado.com.Service.ServiceGeradorHtmlCurriculo;
+import curriculo_documentado.com.Service.ServiceLeitorLattes;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -19,11 +20,13 @@ public class CatalogoDocente {
     private Optional<Docente> docente;
     private InterfaceJpa interfaceJpa;
     private final ServiceGeradorHtmlCurriculo serviceGeradorHtmlCurriculo;
+    private final ServiceLeitorLattes serviceLeitorLattes;
 
     @Autowired
-    public CatalogoDocente(InterfaceJpa interfaceJpa, ServiceGeradorHtmlCurriculo serviceGeradorHtmlCurriculo) {
+    public CatalogoDocente(InterfaceJpa interfaceJpa, ServiceGeradorHtmlCurriculo serviceGeradorHtmlCurriculo, ServiceLeitorLattes serviceLeitorLattes) {
         this.interfaceJpa = interfaceJpa;
         this.serviceGeradorHtmlCurriculo = serviceGeradorHtmlCurriculo;
+        this.serviceLeitorLattes = serviceLeitorLattes;
         carregarDocente();
     }
 
@@ -42,6 +45,12 @@ public class CatalogoDocente {
     public void adicionarDocenteManualmente(String nome, Date dataNascimento, String nomeInstituicao, String cpf, String sexo, String resumoCurriculo) {
         this.docente = Optional.of(new Docente(nome, dataNascimento, nomeInstituicao, cpf, sexo, resumoCurriculo));
         System.out.println(this.docente.toString());
+    }
+
+    public void adicionarDocenteComLattes(String xml) {
+        Docente docente = this.serviceLeitorLattes.criarDocenteUsandoXmlDoLattes(xml);
+        this.docente = Optional.ofNullable(docente);
+        this.interfaceJpa.save(docente);
     }
 
     public void salvarDadosFechamento(){

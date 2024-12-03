@@ -43,6 +43,13 @@ public class Tela extends JFrame {
 
         // Cria o botão de exportação
         JButton btnExportar = new JButton("Importar");
+        btnExportar.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                TelaImportacao telaImportacao = new TelaImportacao(Tela.this, sistemaCurriculo);
+                telaImportacao.setVisible(true);
+            }
+        });
         gbc.gridx = 0;
         gbc.gridy = 1;
         gbc.insets = new Insets(10, 0, 10, 0);
