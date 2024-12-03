@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.time.LocalDateTime;
 
 @Service
 public class ServiceGeradorHtmlCurriculo {
@@ -15,7 +16,8 @@ public class ServiceGeradorHtmlCurriculo {
 
 
     public void gerarCurriculoHtmlPdf(CurriculoDocumentado curriculo) throws IOException {
-        var dowloads_dir = System.getProperty("user.home") + "/Downloads/";
+
+        var dowloads_dir = System.getProperty("user.home") + "/Downloads/curriculo" + LocalDateTime.now();
         File downloadDir = new File(dowloads_dir);
         if (!downloadDir.exists()) {
             downloadDir.mkdirs();

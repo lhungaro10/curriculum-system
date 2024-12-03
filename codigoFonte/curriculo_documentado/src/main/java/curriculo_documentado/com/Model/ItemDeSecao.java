@@ -12,6 +12,7 @@ public class ItemDeSecao {
     private byte[] anexo; // Altere de String para byte[]
 
     private String nome;
+    @Column(length = 1000000)
     private String descricao;
 
     @ManyToOne
