@@ -26,12 +26,8 @@ public class ItemDeSecao {
         this.secao = secao;
     }
 
-    // Construtores
-    public ItemDeSecao(long id, byte[] anexo, String nome, String descricao) {
-        this.id = id;
-        this.anexo = anexo;
+    public ItemDeSecao(String nome) {
         this.nome = nome;
-        this.descricao = descricao;
     }
 
     public ItemDeSecao(byte[] anexo, String nome, String descricao) {
