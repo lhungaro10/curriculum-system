@@ -71,7 +71,7 @@ public class ServiceLeitorLattes {
             String sexo = dadosGerais.getAttribute("SEXO");
             String nomeInstituicao = dadosGerais.getAttribute("NOME-INSTITUICAO-EMPRESA");
             Date dataNascimento = null; // Foda-se
-            String resumo = dadosGerais.getElementsByTagName("TEXTO-RESUMO-CV-RH").item(0).getTextContent();
+            String resumo = null;
 
             // Criação do objeto Docente
             Docente docente = new Docente(nome, dataNascimento, nomeInstituicao, cpf, sexo, resumo);
