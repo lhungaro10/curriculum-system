@@ -57,7 +57,7 @@ public class EditarItem extends JDialog {
         inputPanel.add(descricaoField);
 
         // Caminho do Anexo
-        inputPanel.add(new JLabel("Caminho do Anexo:"));
+//        inputPanel.add(new JLabel("Caminho do Anexo:"));
         anexoPathField = new JTextField();
         anexoPathField.setEditable(false);
         inputPanel.add(anexoPathField);

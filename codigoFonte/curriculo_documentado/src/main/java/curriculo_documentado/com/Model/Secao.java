@@ -10,7 +10,7 @@ public class Secao {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     long id;
-    @Column(unique = true, nullable = false)
+    @Column(nullable = false)
     String nome;
 
     /**
