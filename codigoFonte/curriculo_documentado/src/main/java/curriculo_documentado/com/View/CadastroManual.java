@@ -89,7 +89,7 @@ public class CadastroManual extends JDialog {
             controlador.adicionarDocenteManualmente(nome, formatDate, nomeInstituicao, cpf, sexo, resumoCurriculo);
 
             // Aqui você pode adicionar o código para salvar o docente no banco de dados,
-            // por exemplo, usando o sistemaCurriculo ou qualquer outra lógica de persistência.
+            // por exemplo, usando o sistemaCurriculo ou qualquer outra lógica de persistência
 
             JOptionPane.showMessageDialog(this, "Docente salvo com sucesso!");
             dispose(); // Fecha o diálogo após salvar

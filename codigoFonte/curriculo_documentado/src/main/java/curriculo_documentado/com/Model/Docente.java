@@ -2,6 +2,7 @@ package curriculo_documentado.com.Model;
 
 import jakarta.persistence.*;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 
@@ -36,6 +37,14 @@ public class Docente {
         this.resumoCurriculo = resumoCurriculo;
         this.curriculoDocumentado = new CurriculoDocumentado();
         this.curriculoDocumentado.setDocente(this);
+    }
+
+    public Docente(String nome, Date dataNascimento, String nomeInstituicao, String resumo, String sexo) {
+        this.nome = nome;
+        this.dataNascimento = dataNascimento;
+        this.nomeInstituicao = nomeInstituicao;
+        this.resumoCurriculo = resumo;
+        this.sexo = sexo;
     }
 
     public void addSecao(Secao secao) {

@@ -9,10 +9,11 @@ import org.springframework.stereotype.Component;
 import java.io.IOException;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 @Component
 public class Controlador {
-    private CatalogoDocente catalogoDocente;
+    private final CatalogoDocente catalogoDocente;
 
     public Controlador(CatalogoDocente catalogoDocente) {
         this.catalogoDocente = catalogoDocente;
@@ -26,10 +27,6 @@ public class Controlador {
         this.catalogoDocente.cadastrarSecaoManualmente(nome);
     }
 
-    /**
-     * Adiconar item em seção
-     * TESTAR E IMPLEMENTAR A INTERFACE
-     */
     public List<Secao> obterSecoes() {
         return this.catalogoDocente.obterSecoes();
     }
@@ -42,13 +39,6 @@ public class Controlador {
         this.catalogoDocente.adicionarItemEmSecao(nome, descricao, anexoPdf, secao);
     }
 
-    /**
-     * Excluir item de Seção
-     * TESTAR E IMPLEMENTAR A INTERFACE
-     */
-    public List<ItemDeSecao> obterItensSecao(Secao secao) {
-        return this.catalogoDocente.obterItensSecao(secao);
-    }
     public void excluirItemDeSecao(ItemDeSecao itemDeSecao, Secao secao) {
         this.catalogoDocente.excluirItemDeSecao(itemDeSecao, secao);
     }
@@ -68,4 +58,9 @@ public class Controlador {
     public void gerarCurriculoDocumentado() throws IOException {
         this.catalogoDocente.gerarCurriculoDocumentado();
     }
+
+    public void adicionarDocenteComLattes(String xml) {
+        this.catalogoDocente.adicionarDocenteComLattes(xml);
+    }
+
 }
